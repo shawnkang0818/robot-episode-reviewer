@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Local data
+data/*.csv
+
+# Uploaded / sample episode files
+episodes/*.mp4
+episodes/*.mov
