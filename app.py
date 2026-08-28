@@ -25,3 +25,44 @@ else:
     )
 
     st.video(str(selected_video))
+
+st.subheader("Episode Review")
+
+outcome = st.selectbox(
+    "Outcome",
+    [
+        "SUCCESS",
+        "FAILURE",
+        "ABORTED",
+    ],
+)
+
+failure_type = st.selectbox(
+    "Failure Type",
+    [
+        "NONE",
+        "GRASP_FAILURE",
+        "VISION_FAILURE",
+        "COLLISION",
+        "TIMEOUT",
+        "OPERATOR_ERROR",
+        "SYSTEM_ERROR",
+        "OTHER",
+    ],
+)
+
+notes = st.text_area(
+    "Operator Notes",
+    placeholder="Describe what happened during the episode.",
+)
+
+if st.button("Submit Review"):
+    if outcome == "SUCCESS" and failure_type != "NONE":
+        st.error("Successful episodes must use Failure Type = NONE.")
+    else:
+        st.success("Review is valid.")
+        
+    st.write("Selected episode:", selected_video.name)
+    st.write("Outcome:", outcome)
+    st.write("Failure type:", failure_type)
+    st.write("Notes:", notes)
