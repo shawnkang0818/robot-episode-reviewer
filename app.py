@@ -1,5 +1,6 @@
 import streamlit as st
 from pathlib import Path
+from storage import save_review
 
 st.title("Robot Episode Review Tool")
 
@@ -60,9 +61,11 @@ if st.button("Submit Review"):
     if outcome == "SUCCESS" and failure_type != "NONE":
         st.error("Successful episodes must use Failure Type = NONE.")
     else:
-        st.success("Review is valid.")
-        
-    st.write("Selected episode:", selected_video.name)
-    st.write("Outcome:", outcome)
-    st.write("Failure type:", failure_type)
-    st.write("Notes:", notes)
+        save_review(
+            episode_name=selected_video.name,
+            outcome=outcome,
+            failure_type=failure_type,
+            notes=notes,
+        )
+
+        st.success("Review saved successfully.")
