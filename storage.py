@@ -2,6 +2,7 @@ from pathlib import Path
 from datetime import datetime
 
 import pandas as pd
+import re
 
 REVIEWS_FILE = Path("data/reviews.csv")
 
@@ -42,4 +43,6 @@ def save_review(
     updated_reviews.to_csv(REVIEWS_FILE, index=False)
 
 def get_episode_id(episode_name: str) -> str:
-    return Path(episode_name).stem.upper()
+    stem = Path(episode_name).stem.upper()
+    normalized = re.sub(r"[^A-Z0-9]+", "_", stem)
+    return normalized.strip("_")
