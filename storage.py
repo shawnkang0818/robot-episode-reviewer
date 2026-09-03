@@ -12,7 +12,10 @@ def save_review(
     failure_type: str,
     notes: str,
 ) -> None:
+    episode_id = get_episode_id(episode_name)
+
     review = {
+        "episode_id": episode_id,
         "episode_name": episode_name,
         "reviewed_at": datetime.now().isoformat(timespec="seconds"),
         "outcome": outcome,
@@ -24,6 +27,11 @@ def save_review(
 
     if REVIEWS_FILE.exists():
         existing_reviews = pd.read_csv(REVIEWS_FILE)
+
+        existing_reviews = existing_reviews[
+            existing_reviews["episode_id"] != episode_id
+        ]
+
         updated_reviews = pd.concat(
             [existing_reviews, new_row],
             ignore_index=True,
@@ -32,3 +40,6 @@ def save_review(
         updated_reviews = new_row
 
     updated_reviews.to_csv(REVIEWS_FILE, index=False)
+
+def get_episode_id(episode_name: str) -> str:
+    return Path(episode_name).stem.upper()

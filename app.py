@@ -1,6 +1,6 @@
 import streamlit as st
 from pathlib import Path
-from storage import save_review
+from storage import get_episode_id, save_review
 
 st.title("Robot Episode Review Tool")
 
@@ -26,6 +26,9 @@ else:
     )
 
     st.video(str(selected_video))
+    episode_id = get_episode_id(selected_video.name)
+
+    st.caption(f"Episode ID: {episode_id}")
 
 st.subheader("Episode Review")
 
