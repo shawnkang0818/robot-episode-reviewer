@@ -55,6 +55,32 @@ failure_type = st.selectbox(
     ],
 )
 
+failure_time_seconds = st.number_input(
+    "Failure Timestamp (seconds)",
+    min_value=0.0,
+    step=0.1,
+    format="%.1f",
+)
+
+expected_behavior = st.text_area(
+    "Expected Behavior",
+    placeholder="What should the robot have done?",
+)
+
+observed_behavior = st.text_area(
+    "Observed Behavior",
+    placeholder="What did the robot actually do?",
+)
+
+reproducibility = st.selectbox(
+    "Reproducibility",
+    [
+        "UNKNOWN",
+        "YES",
+        "NO",
+    ],
+)
+
 notes = st.text_area(
     "Operator Notes",
     placeholder="Describe what happened during the episode.",
@@ -63,11 +89,22 @@ notes = st.text_area(
 if st.button("Submit Review"):
     if outcome == "SUCCESS" and failure_type != "NONE":
         st.error("Successful episodes must use Failure Type = NONE.")
+
+    elif outcome == "FAILURE" and failure_type == "NONE":
+        st.error("Failed episodes must include a failure type.")
+
+    elif outcome == "FAILURE" and not observed_behavior.strip():
+        st.error("Failed episodes must include observed behavior.")
+
     else:
         save_review(
             episode_name=selected_video.name,
             outcome=outcome,
             failure_type=failure_type,
+            failure_time_seconds=failure_time_seconds,
+            expected_behavior=expected_behavior,
+            observed_behavior=observed_behavior,
+            reproducibility=reproducibility,
             notes=notes,
         )
 

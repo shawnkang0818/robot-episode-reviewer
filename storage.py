@@ -11,6 +11,10 @@ def save_review(
     episode_name: str,
     outcome: str,
     failure_type: str,
+    failure_time_seconds: float,
+    expected_behavior: str,
+    observed_behavior: str,
+    reproducibility: str,
     notes: str,
 ) -> None:
     episode_id = get_episode_id(episode_name)
@@ -21,6 +25,10 @@ def save_review(
         "reviewed_at": datetime.now().isoformat(timespec="seconds"),
         "outcome": outcome,
         "failure_type": failure_type,
+        "failure_time_seconds": failure_time_seconds,
+        "expected_behavior": expected_behavior,
+        "observed_behavior": observed_behavior,
+        "reproducibility": reproducibility,
         "notes": notes,
     }
 
